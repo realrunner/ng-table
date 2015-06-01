@@ -8,5 +8,5 @@
     } else {
         return factory(root.angular);
     }
-}(this || null, function(angular) {
+}(window.angular || null, function(angular) {
     'use strict';

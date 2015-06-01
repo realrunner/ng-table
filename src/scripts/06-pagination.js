@@ -8,7 +8,8 @@
 
 /**
  * @ngdoc directive
- * @name ngTable.directive:ngTablePagination
+ * @name ngTablePagination
+ * @module ngTable
  * @restrict A
  */
 app.directive('ngTablePagination', ['$compile',
@@ -24,8 +25,13 @@ app.directive('ngTablePagination', ['$compile',
             replace: false,
             link: function(scope, element, attrs) {
 
-                scope.params.settings().$scope.$on('ngTableAfterReloadData', function() {
-                    scope.pages = scope.params.generatePagesArray(scope.params.page(), scope.params.total(), scope.params.count());
+                var settings = scope.params.settings();
+                settings.$scope.$on('ngTableAfterReloadData', function() {
+                    var page = scope.params.page(),
+                        total = scope.params.total(),
+                        count = scope.params.count(),
+                        maxBlocks = settings.paginationMaxBlocks;
+                    scope.pages = scope.params.generatePagesArray(page, total, count, maxBlocks);
                 }, true);
 
                 scope.$watch('templateUrl', function(templateUrl) {
